@@ -1,0 +1,31 @@
+{
+    "token": "MTExODQyNDY5MjY4MDgyMjgzNQ.Gp7Pnp.PMEzMWzIa04ouXVSglVefecZxJQlvlqC1tYGAc",
+  
+    "goodmsg": ["當然好啊!","哪次不好了","你要確定ㄟ","我覺得非常不好","喔","","","","","","",""],
+    "goodmsgmentioned":["當然好啊!","哪次不好了","你要確定ㄟ","我覺得非常不好","喔"],
+  
+    "yesmsg": ["是喔!","顯然否吧","0","當然啦!","喔","","","","","",""],
+    "yesmsgmentioned":["是喔!","顯然否吧","0","當然啦!","喔"],
+  
+    "yessmsg": ["對對對 你說的都對","當然阿","一定是大拇指的啦","否ㄟ","錯得離譜 ~~笑死~~","喔","","","","","",""],
+    "yessmsgmentioned": ["對對對 你說的都對","當然阿","一定是大拇指的啦","否ㄟ","錯得離譜 ~~笑死~~","喔"],
+  
+    "playmsgmentioned": ["來啊","憑什麼","不要啊","我幹嘛跟你玩？","你誰啊？","玩什麼？"],
+    "playmsg": ["+1","沒人要跟你玩啦 笑死","我～","不要啊","玩什麼？","","","",""],
+
+    "whatmsgmentioned": ["自己查有那麼困難？","用腦","問我幹嘛","自己加油","我已經盡力幫助你了","網址都給你了還不去查嗎？"],
+    "magic": "files/book.jpg",
+  
+    "HaMsg": ["哈哈","ㄏㄏ","lol","lmao","哈","笑死"],
+    "HaMsg2": ["哈哈","ㄏㄏ","lol","lmao","哈","笑死","好笑嗎?"],
+    "wantmsgmentioned": ["要啊","哪次不要了","不要啊","乾我屁事","蛤","算了吧"],
+    "wantmsg": ["不揪","+1","我也要","","","",""],
+    "hello": ["早安", "午安", "晚安","","",""],
+    "hellomentioned": ["早安", "午安", "晚安"],
+    "fish": ["一條...普通的魚", "一隻韓國魚", "一隻大白鯊", "一隻周魚", "木魚", "一條鮭魚", "一條鮪魚","一隻....蝙蝠俠直升機！？？:bat::helicopter:"], 
+    "valomap": ["Icebox極地寒港", "Haven遺落境地", "Breeze熱帶樂園", "Ascent義境空島", "Lotus蓮華古城", "Fracture天漠之峽", "Pearl深海遺珠", "Split雙塔迷城", "Bind劫境之地", "Sunset日落之城"], 
+    "valoagent": ["Sova蘇法", "Gekko蓋克", "Reyna蕾娜", "Cypher瑟符", "Omen歐門", "Brimstone布史東", "Astra亞星卓", "Fade菲德", "Viper薇蝮", "Chamber錢伯爾", "Raze芮茲", "Sage聖祈", "KAY/O", "Jett婕提", "Neon妮虹", "Harbor哈泊", "Phoenix菲尼克斯", "Killjoy凱宙", "Breach判奇", "Yoru夜戮", "Skye絲凱", "ISO離索", "Deadlock蒂羅"],
+    "valoweapon": ["classic", "shorty", "frenzy", "ghost", "sheriff", "stinger", "spectre", "ares", "odin", "operator", "marshall", "guardian", "bulldog", "judge", "bucky", "vandal", "phantom", "outlaw"], 
+    "nojio": ["啊我ㄌㄟ", "對啊都不揪", "沒關係都不揪", "沒愛了都不揪我", "你們是不是...還忘了一個人...呢（？","","","",""],
+    "nojiomentioned": ["對啊不揪你", "好爽喔", "揪啊哪次不揪", "乾你屁事", "下次一定", "？", "喔"]
+}
