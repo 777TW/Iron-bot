@@ -9,10 +9,11 @@ from datetime import datetime, timedelta, timezone
 from discord.ui import Button, View
 intents = discord.Intents.all()
 intents.members = True
+import os
+dirname = os.path.dirname(__file__).replace('\categories', '')
 
 
-
-with open(r'C:\Users\happy_\OneDrive\桌面\iron-bot\json\settings.json', 'r', encoding='utf8') as jfile:
+with open(r'{}\json\settings.json'.format(dirname), 'r', encoding='utf8') as jfile:
     jdata = json.load(jfile)
 
 class cmds(commands.Cog):
@@ -32,7 +33,7 @@ class cmds(commands.Cog):
 
     @app_commands.command(name = "magic", description = "看磨鋼鐵變魔術")
     async def magic(self, interaction: discord.Interaction):
-        bookpic = discord.File(r"C:\Users\happy_\OneDrive\桌面\iron-bot\files\book.jpg")
+        bookpic = discord.File(r"{}\files\book.jpg".format(dirname))
         await interaction.response.send_message("想看我變魔術嗎? 看好囉")
         await asyncio.sleep(1)
         await interaction.channel.send("這是一疊書")
@@ -130,9 +131,9 @@ class cmds(commands.Cog):
     @app_commands.command(name = "add_counter", description = "創建一個計數器")
     @app_commands.describe(name = "計數器名字")
     async def add_counter(self, interaction: discord.Interaction, *, name: str):
-        with open('json/counter.json', 'r', encoding = 'utf8') as jcounter_read:
+        with open(r'{}\json\counter.json'.format(dirname), 'r', encoding = 'utf8') as jcounter_read:
             jcounter_loaded = json.load(jcounter_read)
-        with open('json/counter.json', 'w', encoding = 'utf8') as jcounter_write:
+        with open(r'{}\json\counter.json'.format(dirname), 'w', encoding = 'utf8') as jcounter_write:
             jcounter_loaded.append({"user_id": interaction.user.id, "name": name, "count": 0})
             json.dump(jcounter_loaded, jcounter_write)
         await interaction.response.send_message("已經成功新增計數器啦! 使用/counter 開始計數吧")
@@ -143,7 +144,7 @@ class cmds(commands.Cog):
     async def delete_counter(self, interaction: discord.Interaction, number: int):
         user_id = interaction.user.id
         counter_list = []
-        with open('json/counter.json', 'r', encoding = 'utf8') as jcounter_find_read:
+        with open(r'{}\json\counter.json'.format(dirname), 'r', encoding = 'utf8') as jcounter_find_read:
             jcounter_find_loaded = json.load(jcounter_find_read)
         for data in jcounter_find_loaded:
             if int(data['user_id']) == int(user_id):
@@ -162,7 +163,7 @@ class cmds(commands.Cog):
             for i, data in enumerate(counter_list):
                 if data == erase_counter:
                     jcounter_find_loaded.pop(i)
-                    with open('json/counter.json', 'w', encoding = 'utf8') as jcounter_find_write:
+                    with open(r'{}\json\counter.json'.format(dirname), 'w', encoding = 'utf8') as jcounter_find_write:
                         json.dump(jcounter_find_loaded, jcounter_find_write)
                         await interaction.response.send_message(f'成功幫你移除第{number}項啦')
                 else:
@@ -179,7 +180,7 @@ class cmds(commands.Cog):
     async def counter_list(self, interaction: discord.Interaction):
         user_id = interaction.user.id
         counter_list = []
-        with open('json/counter.json', 'r', encoding = 'utf8') as jcounter_list_read:
+        with open(r'{}\json\counter.json'.format(dirname), 'r', encoding = 'utf8') as jcounter_list_read:
             jcounter_list_loaded = json.load(jcounter_list_read)
         for data in jcounter_list_loaded:
             if int(data['user_id']) == int(user_id):
@@ -204,24 +205,24 @@ class cmds(commands.Cog):
         button_plus = Button(label = "+1", style = discord.ButtonStyle.success)
         button_minus = Button(label = "-1", style = discord.ButtonStyle.danger)
         async def button_callback_plus(interaction):
-            with open("json/counter.json", "r") as jcounter_edit_read:
+            with open(r'{}\json\counter.json'.format(dirname), "r") as jcounter_edit_read:
                 jcounter_edit_loaded = json.load(jcounter_edit_read)
             for data in jcounter_edit_loaded:
                 if data['user_id'] == interaction.user.id and data['name'] == title:
                     data['count'] = int(data['count']) + 1
                     new_count = data['count']
-            with open("json/counter.json", "w") as jcounter_edit_write:
+            with open(r'{}\json\counter.json'.format(dirname), "w") as jcounter_edit_write:
                 json.dump(jcounter_edit_loaded, jcounter_edit_write)
             new_embed = discord.Embed(title = title, description = new_count,color=0x0040ff,timestamp=datetime.utcnow().replace(tzinfo=timezone.utc).astimezone(timezone(timedelta(hours=8))))
             await interaction.response.edit_message(embed = new_embed)
         async def button_callback_minus(interaction):
-            with open("json/counter.json", "r") as jcounter_edit_read:
+            with open(r'{}\json\counter.json'.format(dirname), "r") as jcounter_edit_read:
                 jcounter_edit_loaded = json.load(jcounter_edit_read)
             for data in jcounter_edit_loaded:
                 if data['user_id'] == interaction.user.id and data['name'] == title:
                     data['count'] = int(data['count']) - 1
                     new_count = data['count']
-            with open("json/counter.json", "w") as jcounter_edit_write:
+            with open(r'{}\json\counter.json'.format(dirname), "w") as jcounter_edit_write:
                 json.dump(jcounter_edit_loaded, jcounter_edit_write)
             new_embed = discord.Embed(title = title, description = new_count,color=0x0040ff,timestamp=datetime.utcnow().replace(tzinfo=timezone.utc).astimezone(timezone(timedelta(hours=8))))
             await interaction.response.edit_message(embed = new_embed)
@@ -232,7 +233,7 @@ class cmds(commands.Cog):
         view.add_item(button_minus)
         user_id = interaction.user.id
         counter_list = []
-        with open('json/counter.json', 'r', encoding = 'utf8') as jcounter_list_read:
+        with open(r'{}\json\counter.json'.format(dirname), 'r', encoding = 'utf8') as jcounter_list_read:
             jcounter_list_loaded = json.load(jcounter_list_read)
         for data in jcounter_list_loaded:
             if int(data['user_id']) == int(user_id):
