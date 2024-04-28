@@ -5,7 +5,8 @@ intents.members = True
 import json
 import random
 import datetime
-
+import os
+dirname = os.path.dirname(__file__).replace('\categories', '')
 
 class react(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -13,7 +14,7 @@ class react(commands.Cog):
     
     @commands.Cog.listener()
     async def on_message(self,msg):
-        with open(r'C:\Users\happy_\OneDrive\桌面\iron-bot\json\settings.json','r', encoding='utf8') as jfile:
+        with open(r'{}\json\settings.json'.format(dirname),'r', encoding='utf8') as jfile:
             jdata = json.load(jfile)
 
         random_good = random.choice(jdata['goodmsg'])
