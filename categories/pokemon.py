@@ -10,6 +10,7 @@ import random
 import os
 from PIL import Image, ImageDraw, ImageFont
 import io
+from discord.ui import Select, View
 dirname = os.path.dirname(__file__)
 
 class pokemon(commands.Cog):
@@ -19,6 +20,23 @@ class pokemon(commands.Cog):
     @app_commands.command(name = 'pokemon', description = '查詢寶可夢的基本資料')
     @app_commands.describe(pokemon = "寶可夢名稱(中文)")
     async def pokemon(self, interaction: discord.Interaction, pokemon: str):
+        select = Select(
+            options = [
+                discord.SelectOption(
+                    label = "基本資料",
+                    default = True
+                ),
+                discord.SelectOption(
+                    label = "進化",
+                ),
+                discord.SelectOption(
+                    label = "屬性克制"
+                )
+            ]
+        )
+        view = View()
+        view.add_item(select)
+
         cc = OpenCC('s2tw')
         cc2 = OpenCC('tw2s')
         await interaction.response.send_message("正在為你查詢" + pokemon + "的資料...")
@@ -37,6 +55,11 @@ class pokemon(commands.Cog):
         soupp = BeautifulSoup(p_data.text, 'html.parser')
 
 
+        #英文名字
+        for td in soupp.find_all("td", class_ = "roundy"):
+            bold_texts = td.find_all("b")
+            if len(bold_texts) >= 2:
+                english_name = bold_texts[-1].text.strip()
 
 
         #種族值
@@ -54,9 +77,7 @@ class pokemon(commands.Cog):
 
 
         #編號
-        number = soupp.select('th', class_ = 'roundy bd-草 textblack bgwhite')[1].text #寶可夢編號
-
-
+        number = soupp.select('th', class_ = 'roundy')[1].text #寶可夢編號
 
 
         #屬性
@@ -93,17 +114,17 @@ class pokemon(commands.Cog):
         #特性
         special_v = [] #寶可夢特性
 
-        special = soupp.find_all('td', classs)
+        td_all = soupp.find_all('td', classs)
         i = 1
         while True:
-            if '隱藏特性' in special[i].text:
-                special_v.append(cc.convert('(' + special[i].text.replace('\n', '')).replace('隱藏特性', ')'))
+            if '隱藏特性' in td_all[i].text:
+                special_v.append(cc.convert('(' + td_all[i].text.replace('\n', '')).replace('隱藏特性', ')'))
                 break
-            elif '隱藏特性' not in special[2].text and '隱藏特性' not in special[3].text:
-                special_v.append(cc.convert(special[i].text.replace('\n', '')))
+            elif '隱藏特性' not in td_all[2].text and '隱藏特性' not in td_all[3].text:
+                special_v.append(cc.convert(td_all[i].text.replace('\n', '')))
                 break
             else:
-                temp_v = special[i].text.replace('\n', '').split('\xa0或 ')
+                temp_v = td_all[i].text.replace('\n', '').split('\xa0或 ')
                 for j in range(len(temp_v)):
                     special_v.append(cc.convert(temp_v[j]))
 
@@ -118,8 +139,7 @@ class pokemon(commands.Cog):
 
 
         #捕獲率
-        catch_rate = soupp.find_all('td', classs)
-        for i in catch_rate:
+        for i in td_all:
             if "普通的精灵球在满体力下的捕获率" in str(i):
                 data = i.text
                 break
@@ -169,12 +189,12 @@ class pokemon(commands.Cog):
 
 
 
-
         #圖片
-        picture = str(soupp.select('a.image')[0]).split(" ")
-        for i in picture:
-            if 'data-url' in i:
-                pic_url = 'https:' + i[10:-1]
+        picture = soupp.find_all("img")
+        for img in picture:
+            pic_url = "https:" + img["src"]
+            if "s1.52poke.com/wiki/thumb/" in pic_url and english_name in pic_url:
+                break
 
 
         os.chdir(r'{}\pokemon picture'.format(dirname))
@@ -182,6 +202,7 @@ class pokemon(commands.Cog):
         f = open(r'{}\pokemon picture\{}'.format(dirname, number.replace("\n", "") + '.png'), 'wb')
         f.write(imageFile.content)
         f.close()
+
 
 
         # print(pokemon, number)
@@ -356,7 +377,7 @@ class pokemon(commands.Cog):
         with io.BytesIO() as image_binary:
             image.save(image_binary, 'PNG')
             image_binary.seek(0)
-            await interaction.channel.send(file=discord.File(fp=image_binary, filename='image.png'))
+            await interaction.channel.send(file=discord.File(fp=image_binary, filename='image.png'), view = view)
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(pokemon(bot))
